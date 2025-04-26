@@ -6,7 +6,9 @@ public static class SimpleQuestions
 {
     internal static async Task Call(IChatClient chatClient)
     {
-        var chatCompletion = await chatClient.CompleteAsync("What is .Net? Reply in 50 words max.");
-        Console.WriteLine(chatCompletion.Message.Text);
+        var chatCompletion = await chatClient.GetResponseAsync(
+            [new ChatMessage(ChatRole.User, "\"What is .Net? Reply in 50 words max.\"")]
+            );
+        Console.WriteLine(chatCompletion.Text);
     }
 }

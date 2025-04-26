@@ -17,7 +17,7 @@ public static class ChatWithHistory
             Console.WriteLine("AI Response");
             var chatResponse = "";
             
-            await foreach (var item in chatClient.CompleteStreamingAsync(chatHistory))
+            await foreach (var item in chatClient.GetStreamingResponseAsync(chatHistory))
             {
                 Console.Write(item.Text);
                 chatResponse += item.Text;

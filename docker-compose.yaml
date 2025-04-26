@@ -1,0 +1,19 @@
+﻿version: "3.8"
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    deploy:
+      resources:
+        limits:
+          cpus: '8.0'
+#          memory: 4G
+    restart: unless-stopped
+
+volumes:
+  ollama_data:

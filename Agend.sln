@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yaml = docker-compose.yaml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helper", "Helper\Helper.csproj", "{8CE25277-38A9-408D-B38D-81EB91978E9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticSearch", "SemanticSearch\SemanticSearch.csproj", "{499ED550-6DF1-4DBE-A6E4-C54B540D556D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,5 +21,13 @@ Global
 		{DBA36F2D-C2FF-4BB3-8CD9-0C20B517200E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBA36F2D-C2FF-4BB3-8CD9-0C20B517200E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBA36F2D-C2FF-4BB3-8CD9-0C20B517200E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CE25277-38A9-408D-B38D-81EB91978E9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CE25277-38A9-408D-B38D-81EB91978E9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CE25277-38A9-408D-B38D-81EB91978E9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CE25277-38A9-408D-B38D-81EB91978E9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{499ED550-6DF1-4DBE-A6E4-C54B540D556D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{499ED550-6DF1-4DBE-A6E4-C54B540D556D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{499ED550-6DF1-4DBE-A6E4-C54B540D556D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{499ED550-6DF1-4DBE-A6E4-C54B540D556D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

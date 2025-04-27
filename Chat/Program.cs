@@ -22,7 +22,10 @@ IChatClient chatClient = app.Services.GetRequiredService<IChatClient>();
 // await Summarization.Call(chatClient);
 
 // CATEGORIZATION
-await Categoriazation.Call(chatClient);
+// await Categoriazation.Call(chatClient);
+
+// FULL
+await ChatHistoryFull.Call(chatClient, 1);
 
 
 Console.WriteLine("Hello, World!");

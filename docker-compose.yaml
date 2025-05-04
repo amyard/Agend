@@ -1,6 +1,4 @@
-﻿version: "3.8"
-
-services:
+﻿services:
   ollama:
     image: ollama/ollama:latest
     container_name: ollama
@@ -9,7 +7,7 @@ services:
     volumes:
       - ollama_data:/root/.ollama
     networks:
-      - agend_network
+      - agent
     deploy:
       resources:
         limits:
@@ -17,23 +15,48 @@ services:
     #          memory: 4G
     restart: unless-stopped
 
-  chroma:
-    image: chromadb/chroma:latest
-    container_name: chroma
+#  chroma:
+#    image: chromadb/chroma:latest
+#    container_name: chroma
+#    ports:
+#      - "8000:8000"
+#    environment:
+#      - IS_PERSISTENT=TRUE
+#    volumes:
+#      - chroma_data:/chroma/chroma
+#    networks:
+#      - agend_network
+#    restart: unless-stopped
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    restart: always
+    container_name: qdrant
     ports:
-      - "8000:8000"
-    environment:
-      - IS_PERSISTENT=TRUE
+      - 6333:6333
+      - 6334:6334
+    expose:
+      - 6333
+      - 6334
+      - 6335
+    configs:
+      - source: qdrant_config
+        target: /qdrant/config/production.yaml
     volumes:
-      - chroma_data:/chroma/chroma
+      - ./qdrant_data:/qdrant/storage
     networks:
-      - agend_network
-    restart: unless-stopped
+      - agent
+
+configs:
+  qdrant_config:
+    content: |
+      log_level: INFO
 
 volumes:
   ollama_data:
-  chroma_data:
+#  chroma_data:
+  qdrant_data:
 
 networks:
-  agend_network:
+  agent:
     driver: bridge

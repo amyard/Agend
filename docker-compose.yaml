@@ -8,12 +8,32 @@ services:
       - "11434:11434"
     volumes:
       - ollama_data:/root/.ollama
+    networks:
+      - agend_network
     deploy:
       resources:
         limits:
           cpus: '8.0'
-#          memory: 4G
+    #          memory: 4G
+    restart: unless-stopped
+
+  chroma:
+    image: chromadb/chroma:latest
+    container_name: chroma
+    ports:
+      - "8000:8000"
+    environment:
+      - IS_PERSISTENT=TRUE
+    volumes:
+      - chroma_data:/chroma/chroma
+    networks:
+      - agend_network
     restart: unless-stopped
 
 volumes:
   ollama_data:
+  chroma_data:
+
+networks:
+  agend_network:
+    driver: bridge

@@ -9,7 +9,8 @@ using SemanticSearch;
 
 
 # region Qdtant db - simple result
-await QdrantSimple.Run();
+// await QdrantSimple.Run();
+await QdrantSentences.Run();
 # endregion
 
 

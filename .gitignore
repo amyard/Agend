@@ -447,3 +447,6 @@ myenv/*
 files
 files/
 files/*
+qdrant_data
+qdrant_data/
+qdrant_data/*

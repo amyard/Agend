@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticSearch", "SemanticS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticKernelTests", "SemanticKernelTests\SemanticKernelTests.csproj", "{3524FBA5-5C00-4D19-B8C2-6B6E768F75A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chronology", "Chronology\Chronology.csproj", "{9ABF26FE-7763-497C-819D-F6A1B9E13A18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,5 +37,9 @@ Global
 		{3524FBA5-5C00-4D19-B8C2-6B6E768F75A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3524FBA5-5C00-4D19-B8C2-6B6E768F75A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3524FBA5-5C00-4D19-B8C2-6B6E768F75A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ABF26FE-7763-497C-819D-F6A1B9E13A18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ABF26FE-7763-497C-819D-F6A1B9E13A18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ABF26FE-7763-497C-819D-F6A1B9E13A18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ABF26FE-7763-497C-819D-F6A1B9E13A18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -38,7 +38,7 @@ public static class ChatSimple
 
             history.AddUserMessage(userMessage);
 
-            var response = await chatService.GetChatMessageContentAsync(history);
+            var response = await chatCompletionService.GetChatMessageContentAsync(history);
 
             Console.WriteLine($"Bot: {response.Content}");
 

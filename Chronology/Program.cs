@@ -1,4 +1,17 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using Chronology.Models;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.SemanticKernel;
+
+var builder = Host.CreateApplicationBuilder();
+
+IConfigurationRoot config = new ConfigurationBuilder()
+    .AddUserSecrets<Program>()
+    .Build();
+
+AzureOpenAISettings? azureOpenAISettings  = config.GetSection("AzureOpenAI").Get<AzureOpenAISettings>();
+
+var app = builder.Build();
 
 Console.WriteLine("Hello, World!");
 

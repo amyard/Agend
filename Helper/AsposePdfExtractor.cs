@@ -85,8 +85,10 @@ public class AsposePdfExtractor
         // Load the PDF document
         Document pdfDocument = new Document(filePath);
         
+        int pageCount = pdfDocument.Pages.Count;
+        
         // Process each page
-        for (int i = 1; i <= pdfDocument.Pages.Count; i++)
+        for (int i = 1; i <= pageCount; i++)
         {
             List<string> pageContent = [];
             // var pageContent = new PdfPageContent { PageNumber = i, Content = []};

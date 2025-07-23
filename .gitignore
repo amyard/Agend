@@ -455,3 +455,4 @@ secrets
 secrets*
 secrets.*
 secrets.json
+appsettings.*.json

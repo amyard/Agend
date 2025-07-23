@@ -2,10 +2,28 @@
 
 public class AzureOpenAISettings
 {
-    public string AZURE_OPENAI_ENDPOINT { get; set; } = string.Empty;
-    public string AZURE_OPENAI_KEY { get; set; } = string.Empty;
-    public int AZURE_OPENAI_MAX_MODEL_TOKEN_SIZE { get; set; } = 0;
-    public string AZURE_OPENAI_TOKEN_ENCODING_NAME { get; set; } = string.Empty;
-    public string AZURE_OPENAI_DEPLOYMENT_NAME { get; set; } = string.Empty;
-    public string AZURE_OPENAI_DEPLOYMENT_EMBEDDING_NAME { get; set; } = string.Empty;
+    public required ChatCompletionSettings ChatCompletion { get; init; }
+
+    public required EmbeddingSettings Embedding { get; init; }
+}
+
+public class ServiceSettings
+{
+    public required string Endpoint { get; init; }
+
+    public required string Deployment { get; init; }
+
+    public required string ModelId { get; init; }
+
+    public required string ApiKey { get; init; }
+}
+
+public class ChatCompletionSettings : ServiceSettings
+{
+    public int MaxTokenSize { get; set; }
+}
+
+public class EmbeddingSettings : ServiceSettings
+{
+    public int? Dimensions { get; set; }
 }

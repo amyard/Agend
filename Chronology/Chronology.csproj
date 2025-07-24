@@ -8,14 +8,11 @@
       <UserSecretsId>your-chosen-id-here</UserSecretsId>
   </PropertyGroup>
 
-    <ItemGroup>
-      <None Update="text\report.pdf">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="text\azure_load_balancer.pdf">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
+  <ItemGroup>
+    <None Update="text\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Helper\Helper.csproj" />

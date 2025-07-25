@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chronology", "Chronology\Ch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureSemantic", "AzureSemantic\AzureSemantic.csproj", "{756BAC35-F62E-4923-99FD-157D7CB6BDEB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactManagement", "FactManagement\FactManagement.csproj", "{89B21B6D-0E72-4BCD-B69E-577A637D2BFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,5 +49,9 @@ Global
 		{756BAC35-F62E-4923-99FD-157D7CB6BDEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{756BAC35-F62E-4923-99FD-157D7CB6BDEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{756BAC35-F62E-4923-99FD-157D7CB6BDEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89B21B6D-0E72-4BCD-B69E-577A637D2BFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89B21B6D-0E72-4BCD-B69E-577A637D2BFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89B21B6D-0E72-4BCD-B69E-577A637D2BFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89B21B6D-0E72-4BCD-B69E-577A637D2BFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

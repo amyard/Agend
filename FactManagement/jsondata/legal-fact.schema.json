@@ -1,0 +1,60 @@
+﻿{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://json-schema.bundledocs.com/legal-fact-list.schema.json",
+  "title": "LegalFactListWrapper",
+  "description": "A wrapper object containing a list of legal facts",
+  "type": "object",
+  "properties": {
+    "facts": {
+      "type": "array",
+      "description": "A list of legal facts",
+      "items": {
+        "type": "object",
+        "properties": {
+          "FactStatement": {
+            "type": "string",
+            "description": "A concise statement of the legal fact"
+          },
+          "FactText": {
+            "type": "string",
+            "description": "The full text of the legal fact"
+          },
+          "Dates": {
+            "type": "string",
+            "description": "Relevant dates associated with the fact"
+          },
+          "Page": {
+            "type": "string",
+            "description": "Page reference where the fact is documented"
+          },
+          "InvolvedParties": {
+            "type": "array",
+            "description": "List of parties involved in the fact",
+            "items": {
+              "type": "string"
+            }
+          },
+          "LegalIssue": {
+            "type": "string",
+            "description": "The legal issue this fact pertains to"
+          },
+          "ImportanceLevel": {
+            "type": "integer",
+            "description": "Numeric importance level of the fact"
+          }
+        },
+        "required": [
+          "FactStatement",
+          "FactText",
+          "Dates",
+          "InvolvedParties",
+          "LegalIssue",
+          "ImportanceLevel"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["facts"],
+  "additionalProperties": false
+}

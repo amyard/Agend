@@ -52,81 +52,100 @@ File.WriteAllText(outputPath, jsonData);
 async Task<List<LegalFact>> ExtractFactsFromDocumentAsync(string text, ChatClient chatClient)
 {
     int maxOutputTokens = 4000;
+    string systemMessage = File.ReadAllText(Path.Combine("prompt", "system-message.txt"));
+    string rulesMessage = File.ReadAllText(Path.Combine("prompt", "rules.txt"));
+    string rules = rulesMessage
+        .Replace("{{nameof(LegalFact.FactStatement)}}", nameof(LegalFact.FactStatement))
+        .Replace("{{nameof(LegalFact.FactText)}}", nameof(LegalFact.FactText))
+        .Replace("{{nameof(LegalFact.Dates)}}", nameof(LegalFact.Dates))
+        .Replace("{{nameof(LegalFact.Page)}}", nameof(LegalFact.Page))
+        .Replace("{{nameof(LegalFact.InvolvedParties)}}", nameof(LegalFact.InvolvedParties))
+        .Replace("{{nameof(LegalFact.LegalIssue)}}", nameof(LegalFact.LegalIssue))
+        .Replace("{{nameof(LegalFact.ImportanceLevel)}}", nameof(LegalFact.ImportanceLevel))
+        .Replace("{{maxOutputTokens}}", maxOutputTokens.ToString());
     
-    string systemMessage = """
-        You are a legal analyst. Analyze the following document and extract all factual statements that could be relevant in a court of law.
-        For any given input, always respond with a JSON document that accurately represents the content and complies with the provided JSON Schema.
-        Do not include any other text or values in your response.
-        """;
+    
+    // string systemMessage = """
+    //     You are a legal analyst. Analyze the following document and extract all factual statements that could be relevant in a court of law.
+    //     
+    //     Always respond with a valid JSON object that conforms to the schema provided. Do not include any explanatory text, formatting instructions, or commentary outside the JSON.
+    //     
+    //     Each fact must be:
+    //     - Directly stated in the document (no assumptions or interpretations)
+    //     - Relevant to legal proceedings
+    //     - Categorized by type and importance
+    //     """;
     
     // Construct the prompt with legal-specific instructions
-    string rules = $"""
-                    Please! Do not wrap the response with ```json ``` or any other formatting guidance.
-                    
-                    Extract and list the key factual statements from the following court document. Focus only on objective facts, such as:
-                    - Names of the parties involved
-                    - Important dates and timelines
-                    - Legal claims and allegations
-                    - Factual background of the dispute
-                    - Key findings or facts recognized by the court
-                    - Actions taken by either party
-                    - Court decisions (fact-based, not legal reasoning)
-                    Do not include legal opinions, arguments, or citations. Present the facts as bullet points, each representing a discrete factual event or condition. Do not include legal arguments, opinions, or conclusions.
-                    
-                    For each fact, include:
-                    - {nameof(LegalFact.FactStatement)}
-                    - {nameof(LegalFact.FactText)}
-                    - {nameof(LegalFact.Dates)}
-                    - {nameof(LegalFact.Page)}
-                    - {nameof(LegalFact.InvolvedParties)}
-                    - {nameof(LegalFact.LegalIssue)}
-                    - {nameof(LegalFact.ImportanceLevel)}
-                    
-                    Rules for {nameof(LegalFact.FactStatement)}
-                    - A clear, concise description of both the fact itself and how it relates to the case
-                    
-                    Rule for {nameof(LegalFact.FactText)}
-                    - Provide text from provided document. Do hot add any halucinations or explanations. Clear text described {nameof(LegalFact.FactStatement)}
-                    
-                    Rules for {nameof(LegalFact.Dates)}
-                    - When the fact occurred (can be a range)
-                    
-                    Rules for {nameof(LegalFact.Page)}
-                    - Source location using first page number only, or first-last if spanning multiple pages (e.g., "123" or "123-125")
-                    
-                    Rules for {nameof(LegalFact.InvolvedParties)}
-                    - All relevant people, organizations, or entities connected to the fact
-                    
-                    Rules for {nameof(LegalFact.LegalIssue)}
-                    - Which legal issue the fact relates to
-                    
-                    Rules for {nameof(LegalFact.ImportanceLevel)}
-                    - Subjective rating (e.g., 1–5), where 1 is low and 5 is high
-                    
-                    Focus exclusively on:
-                    ✓ Specific dates/times/locations
-                    ✓ Identifiable people/organizations/places
-                    ✓ Quantifiable amounts/measurements
-                    ✓ Direct statements of events/actions
-                    ✓ Contract terms/agreement details
-                    ✓ Financial transactions/obligations
-                    ✓ Property descriptions/ownership
-                    ✓ Employment/professional relationships
-                    
-                    Exclude:
-                    × Legal arguments or theories
-                    × Subjective opinions
-                    × Conclusions or interpretations
-                    × Information not directly stated in text
-                    
-                    Document pages are marked as <1>content</1>, <2>content</2>, etc.
-                    
-                    Return only the JSON string without any additional text or sentences. Do not include any explanations, citations or additional information outside the JSON string.
-                    The output result should be less than {maxOutputTokens} tokens. If you have more than {maxOutputTokens} tokens, return the most relevant facts.
-                    """;
+//     string rules = $$"""
+//                      Please! Do not wrap the response with ```json ``` or any other formatting guidance.
+//                      
+//                      Extract and list the key factual statements from the following court document. Focus only on objective facts, such as:
+//                      - Names of the parties involved
+//                      - Important dates and timelines
+//                      - Legal claims and allegations
+//                      - Factual background of the dispute
+//                      - Key findings or facts recognized by the court
+//                      - Actions taken by either party
+//                      - Court decisions (fact-based, not legal reasoning)
+//                      Do not include legal opinions, arguments, or citations. Present the facts as bullet points, each representing a discrete factual event or condition. Do not include legal arguments, opinions, or conclusions.
+//                      
+//                      For each fact, include:
+//                      - {{nameof(LegalFact.FactStatement)}}
+//                      - {{nameof(LegalFact.FactText)}}
+//                      - {{nameof(LegalFact.Dates)}}
+//                      - {{nameof(LegalFact.Page)}}
+//                      - {{nameof(LegalFact.InvolvedParties)}}
+//                      - {{nameof(LegalFact.LegalIssue)}}
+//                      - {{nameof(LegalFact.ImportanceLevel)}}
+//                      
+//                      Rules for {{nameof(LegalFact.FactStatement)}}
+//                      - A clear, concise description of both the fact itself and how it relates to the case
+//                      
+//                      Rule for {{nameof(LegalFact.FactText)}}
+//                      - Provide text from provided document. Do not add any hallucinations or explanations. Clear text described {{nameof(LegalFact.FactStatement)}}
+//                      
+//                      Rules for {{nameof(LegalFact.Dates)}}
+//                      - When the fact occurred (can be a range)
+//                      
+//                      Rules for {{nameof(LegalFact.Page)}}
+//                      - Source location using first page number only, or first-last if spanning multiple pages (e.g., "123" or "123-125")
+//                      
+//                      Rules for {{nameof(LegalFact.InvolvedParties)}}
+//                      - All relevant people, organizations, or entities connected to the fact
+//                      
+//                      Rules for {{nameof(LegalFact.LegalIssue)}}
+//                      - Which legal issue the fact relates to
+//                      
+//                      Rules for {{nameof(LegalFact.ImportanceLevel)}}
+//                      - Subjective rating (e.g., 1–5), where 1 is low and 5 is high
+//                      
+//                      Focus exclusively on:
+//                      ✓ Specific dates/times/locations
+//                      ✓ Identifiable people/organizations/places
+//                      ✓ Quantifiable amounts/measurements
+//                      ✓ Direct statements of events/actions
+//                      ✓ Contract terms/agreement details
+//                      ✓ Financial transactions/obligations
+//                      ✓ Property descriptions/ownership
+//                      ✓ Employment/professional relationships
+//                      
+//                      Exclude:
+//                      × Legal arguments or theories
+//                      × Subjective opinions
+//                      × Conclusions or interpretations
+//                      × Information not directly stated in text
+//                      
+//                      Document pages are marked as <1>content</1>, <2>content</2>, etc.
+//                      
+//                      Return only the JSON object as a string, without any additional text, formatting, or commentary. 
+//                      Do not include any explanations, citations or additional information outside the JSON string.
+//                      The output result should be less than {{maxOutputTokens}} tokens. 
+//                      If the output exceeds {maxOutputTokens} tokens, prioritize facts with the highest ImportanceLevel and those most directly tied to the central legal issue.
+//                      """;
     
 #pragma warning disable AOAI001
-    var schema = await File.ReadAllTextAsync("jsondata/legal-fact.schema.json");
+    var schema = await File.ReadAllTextAsync(Path.Combine("prompt", "schema", "legal-fact.schema.json"));
     
     ChatCompletionOptions chatCompletionsOptions = new()
     {

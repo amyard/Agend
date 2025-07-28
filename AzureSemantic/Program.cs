@@ -5,7 +5,8 @@
 
 
 // await LoadBalancerProcess.ProcessCreateIndex().ConfigureAwait(false);
-await LoadBalancerProcess.ProcessSearch().ConfigureAwait(false);
+// await LoadBalancerProcess.ProcessSearch().ConfigureAwait(false);
+await QdrantProcess.ProcessSearch().ConfigureAwait(false);
 
 
 Console.WriteLine("Hello, World!");

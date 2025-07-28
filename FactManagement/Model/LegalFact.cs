@@ -7,6 +7,15 @@ public class LegalFactGeneral: LegalFact
     public string FactId { get; set; } = Guid.NewGuid().ToString();
     public string DocumentName { get; set; } = string.Empty;
     public float[] FactStatementEmbedding { get; set; }
+
+    // if user change something, change the type
+    public BehaviourType BehaviourType { get; set; } = BehaviourType.SystemType;
+}
+
+public enum BehaviourType
+{
+    SystemType = 0,
+    UserType = 1
 }
 
 // because of using json schema we need to add wrapper for response. the reason is because in schema we are calling object, not array. 

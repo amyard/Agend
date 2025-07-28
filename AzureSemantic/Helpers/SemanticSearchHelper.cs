@@ -62,6 +62,25 @@ public static class SemanticSearchHelper
         OpenAIEmbedding embedding = embeddingClient.GenerateEmbedding(input, embeddingOptions);
         return embedding.ToFloats();
     }
+
+    public static EmbeddingClient GetEmbeddingClient()
+    {
+        Uri endpoint = new Uri(_openAiEndpoint);
+        AzureKeyCredential credential = new AzureKeyCredential(_openAiKey);
+
+        AzureOpenAIClient openAIClient = new AzureOpenAIClient(endpoint, credential);
+        EmbeddingClient embeddingClient = openAIClient.GetEmbeddingClient(_embeddingModel);
+        
+        return embeddingClient;
+    }
+    
+    public static float[] GetEmbeddings(EmbeddingClient embeddingClient, string input)
+    {
+        EmbeddingGenerationOptions embeddingOptions = new() { Dimensions = _modelDimensions };
+        OpenAIEmbedding embedding = embeddingClient.GenerateEmbedding(input, embeddingOptions);
+        
+        return embedding.ToFloats().ToArray();
+    }
     #endregion
 
     #region HOTEL

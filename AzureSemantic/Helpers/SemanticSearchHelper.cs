@@ -226,6 +226,24 @@ public static class SemanticSearchHelper
                     VectorSearchProfileName = "balanced-profile"
                 }
             },
+            SemanticSearch = new()
+            {
+                Configurations =
+                {
+                    new SemanticConfiguration("my-semantic-config", new()
+                    {
+                        TitleField = new SemanticField("Name"),
+                        ContentFields =
+                        {
+                            new SemanticField("Content")
+                        },
+                        KeywordsFields =
+                        {
+                            new SemanticField("Category")
+                        }
+                    })
+                }
+            },
             VectorSearch = new()
             {
                 Compressions =

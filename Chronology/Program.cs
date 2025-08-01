@@ -25,20 +25,20 @@ string rootPath = "knowledgebase";
 var vectorStore = new InMemoryVectorStore();
 
 
-builder.AddInMemoryVectorStore()
-    .AddInMemoryVectorStoreRecordCollection<string, KnowledgeBaseSnippet>(collectionName)
-    .AddVectorStoreTextSearch<KnowledgeBaseSnippet>(
-        new TextSearchStringMapper((result) => (result as KnowledgeBaseSnippet)!.Text!),
-        new TextSearchResultMapper((result) => 
-        {
-            // create a mapping from the Vector Store data type to the data type returned by the Text Search,
-            // this search will ultimately be used in a plugin and this TextSearchResult will be retuned to the prompt tenplate
-            // when the the plugin is invoked from the prompt template
-            var castResult = result as KnowledgeBaseSnippet;
-            return new TextSearchResult(value: castResult!.Text!)
-                { Name = castResult.ReferenceDescription, Link = castResult.ReferenceLink };
-        })
-        );
+// builder.AddInMemoryVectorStore()
+//     .AddInMemoryVectorStoreRecordCollection<string, KnowledgeBaseSnippet>(collectionName)
+//     .AddVectorStoreTextSearch<KnowledgeBaseSnippet>(
+//         new TextSearchStringMapper((result) => (result as KnowledgeBaseSnippet)!.Text!),
+//         new TextSearchResultMapper((result) => 
+//         {
+//             // create a mapping from the Vector Store data type to the data type returned by the Text Search,
+//             // this search will ultimately be used in a plugin and this TextSearchResult will be retuned to the prompt tenplate
+//             // when the the plugin is invoked from the prompt template
+//             var castResult = result as KnowledgeBaseSnippet;
+//             return new TextSearchResult(value: castResult!.Text!)
+//                 { Name = castResult.ReferenceDescription, Link = castResult.ReferenceLink };
+//         })
+//         );
     
 var kernel = builder.Build();
 

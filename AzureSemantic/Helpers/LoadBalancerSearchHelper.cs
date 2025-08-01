@@ -151,7 +151,6 @@ public static class LoadBalancerSearchHelper
                     Queries = 
                     {
                         new VectorizedQuery(embeddingQuery) 
-                        // new VectorizableTextQuery(searchText) 
                         {
                             KNearestNeighborsCount = 50, 
                             Fields = { searchField },
@@ -178,7 +177,7 @@ public static class LoadBalancerSearchHelper
                     {
                         new VectorizedQuery(embeddingQuery) 
                             {
-                                KNearestNeighborsCount = 100, 
+                                KNearestNeighborsCount = 50, 
                                 Fields = { searchField },
                                 Oversampling = 10.0,
                             } 
@@ -194,7 +193,7 @@ public static class LoadBalancerSearchHelper
                 Filter = filter
             });
 
-        Console.WriteLine($"\nSemantic Hybrid Search Results::");
+        Console.WriteLine($"\nSemantic Hybrid Search Results:");
         await DisplayResult(response);
     }
     
@@ -251,16 +250,16 @@ public static class LoadBalancerSearchHelper
 
     private static async Task DisplayResult(SearchResults<Book> response)
     {
-        if (response.SemanticSearch?.Answers != null)
+        if (response?.SemanticSearch?.Answers != null)
         {
             foreach (QueryAnswerResult result in response.SemanticSearch.Answers)
             {
-                Console.WriteLine($"Key: {result.Key}. Score: {result.Score}");
+                Console.WriteLine($"Key: {result.Key}. Score: {result.Score:0.0000}");
                 Console.WriteLine($"Answer Highlights: {result.Highlights}");
                 Console.WriteLine($"Answer Text: {result.Text}");
             }
-            
         }
+        
         int count = 0;
         await foreach (SearchResult<Book> result in response.GetResultsAsync())
         {

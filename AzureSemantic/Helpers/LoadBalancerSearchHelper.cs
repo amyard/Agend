@@ -383,7 +383,11 @@ public static class LoadBalancerSearchHelper
 
     # endregion
     
-    
+    // You mentioned having 11 appearances of "load balancer" in page2 but getting 7 highlights. This is normal because:
+    // 1.	Semantic Search ≠ Keyword Count: Semantic search doesn't just count exact matches
+    // 2.	Context Matters: It looks for semantically relevant passages, not just keyword occurrences
+    // 3.	Highlight Grouping: Multiple nearby occurrences might be grouped into single highlights
+    // 4.	Relevance Filtering: Only the most contextually relevant matches are highlighted
     internal static async Task EnhancedSemanticSearch(SearchClient searchClient, string searchText, ReadOnlyMemory<float> embeddingQuery, string searchField = nameof(Book.ContentVector2), string filter = "", int maxResults = 1000)
     {
         SearchResults<Book> response = await searchClient.SearchAsync<Book>(

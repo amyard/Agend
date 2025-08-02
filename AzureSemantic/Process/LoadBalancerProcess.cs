@@ -62,6 +62,14 @@ public static class LoadBalancerProcess
         // await LoadBalancerSearchHelper.HybridSearch(searchClient, query, embeddingQuery, "Category eq 'pages'");
         
         // await LoadBalancerSearchHelper.BalancedVectorSearch(searchClient, query, embeddingQuery, nameof(Book.ContentVector4), "Category eq 'pages'");
-        await LoadBalancerSearchHelper.BalancedVectorSemanticSearch(searchClient, query, embeddingQuery, nameof(Book.ContentVector4), "Category eq 'pages'");
+        
+        // await LoadBalancerSearchHelper.BalancedVectorSemanticSearch(searchClient, query, embeddingQuery, nameof(Book.ContentVector4), "Category eq 'pages'");
+        // await LoadBalancerSearchHelper.BalancedVectorSemanticSearchWithPagination(searchClient, query, embeddingQuery, nameof(Book.ContentVector4), "Category eq 'pages'");
+        
+        // "Category eq 'pages'"
+        // await LoadBalancerSearchHelper.EnhancedSemanticSearch(searchClient, query, embeddingQuery, nameof(Book.ContentVector4), "Category eq 'pages'");
+        
+        // "Category eq 'pages' and Id eq 'page1'"
+        await LoadBalancerSearchHelper.EnhancedSemanticSearch(searchClient, query, embeddingQuery, nameof(Book.ContentVector4), "Category eq 'pages' and Id eq 'page2'");
     }
 }

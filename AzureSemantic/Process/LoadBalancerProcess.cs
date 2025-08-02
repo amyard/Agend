@@ -70,6 +70,12 @@ public static class LoadBalancerProcess
         // await LoadBalancerSearchHelper.EnhancedSemanticSearch(searchClient, query, embeddingQuery, nameof(Book.ContentVector4), "Category eq 'pages'");
         
         // "Category eq 'pages' and Id eq 'page1'"
-        await LoadBalancerSearchHelper.EnhancedSemanticSearch(searchClient, query, embeddingQuery, nameof(Book.ContentVector4), "Category eq 'pages' and Id eq 'page2'");
+        // await LoadBalancerSearchHelper.EnhancedSemanticSearch(searchClient, query, embeddingQuery, nameof(Book.ContentVector4), "Category eq 'pages' and Id eq 'page2'");
+        // await LoadBalancerSearchHelper.EnhancedSemanticSearch(searchClient, query, embeddingQuery, nameof(Book.ContentVector4), "Category eq 'pages' and Id eq 'page2'");
+        await LoadBalancerSearchHelper.EnhancedSemanticSearch(searchClient, query, embeddingQuery, nameof(Book.ContentVector4), "Category eq 'doc'");
+        
+        // simple
+        // await LoadBalancerSearchHelper.LiteralContentSearch(searchClient, query, "Category eq 'pages' and Id eq 'page2'");
+        // await LoadBalancerSearchHelper.LiteralContentSearchWithPagination(searchClient, query, "Category eq 'pages' and Id eq 'page2'");
     }
 }

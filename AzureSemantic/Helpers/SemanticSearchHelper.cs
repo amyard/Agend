@@ -370,25 +370,25 @@ public static class SemanticSearchHelper
         
         return new[]
         {
-            new Book() { Id = "allPages", Category = "doc", Name = "Load Balancer P.1-5", Content = allPages, ContentVector = GetEmbeddings(allPages) },
+            // new Book() { Id = "allPages", Category = "doc", Name = "Load Balancer P.1-5", Content = allPages, ContentVector = GetEmbeddings(allPages) },
             
             new Book() { Id = "page1", Category = "pages", Name = "Load Balancer P.1", Content = page1, ContentVector = vectorPage1, ContentVector2 = vectorPage1, ContentVector3 = vectorPage1, ContentVector4 = vectorPage1 },
             new Book() { Id = "page2", Category = "pages", Name = "Load Balancer P.2", Content = page2, ContentVector = vectorPage2, ContentVector2 = vectorPage2, ContentVector3 = vectorPage2, ContentVector4 = vectorPage2 },
             new Book() { Id = "page3", Category = "pages", Name = "Load Balancer P.3", Content = page3, ContentVector = vectorPage3, ContentVector2 = vectorPage3, ContentVector3 = vectorPage3, ContentVector4 = vectorPage3 },
             new Book() { Id = "page4", Category = "pages", Name = "Load Balancer P.4", Content = page4, ContentVector = vectorPage4, ContentVector2 = vectorPage4, ContentVector3 = vectorPage4, ContentVector4 = vectorPage4 },
             
-            new Book() { Id = "page1_1", Category = "paragraph", Name = "Load Balancer P.1.1", Content = page1_1, ContentVector = GetEmbeddings(page1_1) },
-            new Book() { Id = "page1_2", Category = "paragraph", Name = "Load Balancer P.1.2", Content = page1_2, ContentVector = GetEmbeddings(page1_2) },
-            new Book() { Id = "page2_1", Category = "paragraph", Name = "Load Balancer P.2.1", Content = page2_1, ContentVector = GetEmbeddings(page2_1) },
-            new Book() { Id = "page2_2", Category = "paragraph", Name = "Load Balancer P.2.2", Content = page2_2, ContentVector = GetEmbeddings(page2_2) },
-            new Book() { Id = "page2_3", Category = "paragraph", Name = "Load Balancer P.2.3", Content = page2_3, ContentVector = GetEmbeddings(page2_3) },
-            new Book() { Id = "page2_4", Category = "paragraph", Name = "Load Balancer P.2.4", Content = page2_4, ContentVector = GetEmbeddings(page2_4) },
-            new Book() { Id = "page3_1", Category = "paragraph", Name = "Load Balancer P.3.1", Content = page3_1, ContentVector = GetEmbeddings(page3_1) },
-            new Book() { Id = "page3_2", Category = "paragraph", Name = "Load Balancer P.3.2", Content = page3_2, ContentVector = GetEmbeddings(page3_2) },
-            new Book() { Id = "page4_1", Category = "paragraph", Name = "Load Balancer P.4.1", Content = page4_1, ContentVector = GetEmbeddings(page4_1) },
-            new Book() { Id = "page4_2", Category = "paragraph", Name = "Load Balancer P.4.2", Content = page4_2, ContentVector = GetEmbeddings(page4_2) },
-            new Book() { Id = "page4_3", Category = "paragraph", Name = "Load Balancer P.4.3", Content = page4_3, ContentVector = GetEmbeddings(page4_3) },
-            new Book() { Id = "page4_4", Category = "paragraph", Name = "Load Balancer P.4.4", Content = page4_4, ContentVector = GetEmbeddings(page4_4) }
+            // new Book() { Id = "page1_1", Category = "paragraph", Name = "Load Balancer P.1.1", Content = page1_1, ContentVector = GetEmbeddings(page1_1) },
+            // new Book() { Id = "page1_2", Category = "paragraph", Name = "Load Balancer P.1.2", Content = page1_2, ContentVector = GetEmbeddings(page1_2) },
+            // new Book() { Id = "page2_1", Category = "paragraph", Name = "Load Balancer P.2.1", Content = page2_1, ContentVector = GetEmbeddings(page2_1) },
+            // new Book() { Id = "page2_2", Category = "paragraph", Name = "Load Balancer P.2.2", Content = page2_2, ContentVector = GetEmbeddings(page2_2) },
+            // new Book() { Id = "page2_3", Category = "paragraph", Name = "Load Balancer P.2.3", Content = page2_3, ContentVector = GetEmbeddings(page2_3) },
+            // new Book() { Id = "page2_4", Category = "paragraph", Name = "Load Balancer P.2.4", Content = page2_4, ContentVector = GetEmbeddings(page2_4) },
+            // new Book() { Id = "page3_1", Category = "paragraph", Name = "Load Balancer P.3.1", Content = page3_1, ContentVector = GetEmbeddings(page3_1) },
+            // new Book() { Id = "page3_2", Category = "paragraph", Name = "Load Balancer P.3.2", Content = page3_2, ContentVector = GetEmbeddings(page3_2) },
+            // new Book() { Id = "page4_1", Category = "paragraph", Name = "Load Balancer P.4.1", Content = page4_1, ContentVector = GetEmbeddings(page4_1) },
+            // new Book() { Id = "page4_2", Category = "paragraph", Name = "Load Balancer P.4.2", Content = page4_2, ContentVector = GetEmbeddings(page4_2) },
+            // new Book() { Id = "page4_3", Category = "paragraph", Name = "Load Balancer P.4.3", Content = page4_3, ContentVector = GetEmbeddings(page4_3) },
+            // new Book() { Id = "page4_4", Category = "paragraph", Name = "Load Balancer P.4.4", Content = page4_4, ContentVector = GetEmbeddings(page4_4) }
         };
     }
     #endregion

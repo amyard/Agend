@@ -446,15 +446,17 @@ public static class LoadBalancerSearchHelper
         // searchText = searchText.Insert(searchText.Length, "~");
         // searchText = $"load balancer";
         // searchText = $"load balancer~";
-        searchText = $"\"load balancer\"";
+        // searchText = $"\"load balancer\"";
         // searchText = $"\"load balancer~\"";
+        // searchText = "\"load balancer\"~0";  // ~0 exact.  "\"load balancer\"~1";  // Allow 1 word between
+        searchText = "\"load balancer*\"";
         
         SearchResults<Book> response = await searchClient.SearchAsync<Book>(
             searchText,
             new SearchOptions
             {
                 // Use simple query type for literal text matching
-                QueryType = SearchQueryType.Simple,
+                QueryType = SearchQueryType.Full,
                 SearchMode = SearchMode.All,
                 
                 // Search only in the Content field for literal matches
@@ -467,8 +469,8 @@ public static class LoadBalancerSearchHelper
                 
                 // Enable highlighting to show where matches occur in content
                 HighlightFields = { nameof(Book.Content) },
-                HighlightPreTag = "<mark>",
-                HighlightPostTag = "</mark>",
+                HighlightPreTag = "",
+                HighlightPostTag = "",
                 
                 // Apply any filters
                 Filter = filter,
@@ -510,7 +512,7 @@ public static class LoadBalancerSearchHelper
             if (result.Highlights?.ContainsKey(nameof(Book.Content)) == true)
             {
                 IList<string>? data = result.Highlights[nameof(Book.Content)];
-                string content = string.Join(" ", data);
+                string content = string.Join("\n", data);
                 
                 // Count actual phrase occurrences in highlights
                 var hCount = 0;
@@ -522,7 +524,11 @@ public static class LoadBalancerSearchHelper
                 
                 Console.WriteLine($"   🔍 Azure Search Highlights:");
                 Console.WriteLine($"      • Highlight segments: {data.Count}. Phrase occurrences: {hCount}");
-                Console.WriteLine($"      • {content}");
+                foreach (var dd in data)
+                {
+                    Console.WriteLine($"      • {dd}");
+                }
+                // Console.WriteLine($"      • {content}");
             }
             
             // Show exact phrase match count in content using our manual counting

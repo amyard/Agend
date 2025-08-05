@@ -76,6 +76,7 @@ public static class LoadBalancerProcess
         
         // Literal search
         // await LoadBalancerSearchHelper.LiteralContentSearch(searchClient, query, "Category eq 'pages' and Id eq 'page2'");
-        await LoadBalancerSearchHelper.LiteralContentSearch(searchClient, query, "Category eq 'doc'");
+        // await LoadBalancerSearchHelper.LiteralContentSearch(searchClient, query, "Category eq 'doc'");
+        await LoadBalancerSearchHelper.LiteralContentSearch(searchClient, query, "Category eq 'pages'");
     }
 }

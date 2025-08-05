@@ -36,7 +36,7 @@ public static class LoadBalancerProcess
         // await LoadBalancerSearchHelper.SingleVectorSearchEmbedding(searchClient, "load balancer", "Category eq 'pages'");
         // await LoadBalancerSearchHelper.SingleVectorSearchEmbedding(searchClient, "load balancer", "Category eq 'paragraph'");
 
-        string query = "load balancer";
+        // string query = "load balancer";
         
         // await LoadBalancerSearchHelper.SingleVectorSearchEmbedding(searchClient, query, "Category eq 'doc'");
         // await LoadBalancerSearchHelper.SingleVectorSearchEmbedding(searchClient, query, "Category eq 'pages'");
@@ -54,7 +54,7 @@ public static class LoadBalancerProcess
         // // using UsingVectorizableTextQuery - do not transfer search to embedding
         // await HotelSearchHelper.SingleVectorSearchNotEmbedding(searchClient, "Top hotels in town");
         
-        ReadOnlyMemory<float> embeddingQuery = SemanticSearchHelper.GetEmbeddings(query);
+        // ReadOnlyMemory<float> embeddingQuery = SemanticSearchHelper.GetEmbeddings(query);
         
         // await LoadBalancerSearchHelper.FastVectorSearch(searchClient, query, embeddingQuery, "Category eq 'pages'");
         // await LoadBalancerSearchHelper.BalancedVectorSearch(searchClient, query, embeddingQuery, filter: "Category eq 'pages'");
@@ -70,6 +70,12 @@ public static class LoadBalancerProcess
         // await LoadBalancerSearchHelper.EnhancedSemanticSearch(searchClient, query, embeddingQuery, nameof(Book.ContentVector4), "Category eq 'pages'");
         
         // "Category eq 'pages' and Id eq 'page1'"
-        await LoadBalancerSearchHelper.EnhancedSemanticSearch(searchClient, query, embeddingQuery, nameof(Book.ContentVector4), "Category eq 'pages' and Id eq 'page2'");
+        // await LoadBalancerSearchHelper.EnhancedSemanticSearch(searchClient, query, embeddingQuery, nameof(Book.ContentVector4), "Category eq 'pages' and Id eq 'page2'");
+        
+        string query = "load balancer";
+        
+        // Literal search
+        // await LoadBalancerSearchHelper.LiteralContentSearch(searchClient, query, "Category eq 'pages' and Id eq 'page2'");
+        await LoadBalancerSearchHelper.LiteralContentSearch(searchClient, query, "Category eq 'doc'");
     }
 }

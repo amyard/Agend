@@ -432,6 +432,205 @@ public static class LoadBalancerSearchHelper
         await DisplayEnhancedResult(response);
     }
 
+    /// <summary>
+    /// Performs a literal text search without any vector embeddings or semantic processing.
+    /// Searches directly in the Content field using simple text matching.
+    /// </summary>
+    /// <param name="searchClient">Azure Search client</param>
+    /// <param name="searchText">Text to search for literally</param>
+    /// <param name="filter">Optional OData filter expression</param>
+    /// <param name="maxResults">Maximum number of results to return</param>
+    /// <returns>Task representing the async operation</returns>
+    internal static async Task LiteralContentSearch(SearchClient searchClient, string searchText, string filter = "", int maxResults = 1000)
+    {
+        // searchText = searchText.Insert(searchText.Length, "~");
+        // searchText = $"load balancer";
+        // searchText = $"load balancer~";
+        searchText = $"\"load balancer\"";
+        // searchText = $"\"load balancer~\"";
+        
+        SearchResults<Book> response = await searchClient.SearchAsync<Book>(
+            searchText,
+            new SearchOptions
+            {
+                // Use simple query type for literal text matching
+                QueryType = SearchQueryType.Simple,
+                SearchMode = SearchMode.All,
+                
+                // Search only in the Content field for literal matches
+                SearchFields = { nameof(Book.Content) },
+                
+                // Configure to return matching data
+                Size = 1000,
+                IncludeTotalCount = true,
+                Skip = 0,
+                
+                // Enable highlighting to show where matches occur in content
+                HighlightFields = { nameof(Book.Content) },
+                HighlightPreTag = "<mark>",
+                HighlightPostTag = "</mark>",
+                
+                // Apply any filters
+                Filter = filter,
+                
+                // Include all fields in results
+                Select = { "*" }
+            });
+
+        Console.WriteLine($"\nLiteral Content Search Results:");
+        Console.WriteLine($"Search Query: '{searchText}'");
+        
+        // Display total count if available
+        if (response.TotalCount.HasValue)
+        {
+            Console.WriteLine($"Total matching documents: {response.TotalCount.Value}");
+        }
+        
+        await DisplayLiteralSearchResults(response, searchText);
+    }
+    
+    private static async Task DisplayLiteralSearchResults(SearchResults<Book> response, string searchText)
+    {
+        Console.WriteLine("\n=== LITERAL CONTENT SEARCH RESULTS ===");
+        
+        int count = 0;
+        var allResults = new List<Book>();
+
+        await foreach (SearchResult<Book> result in response.GetResultsAsync())
+        {
+            count++;
+            Book doc = result.Document;
+            allResults.Add(doc);
+            
+            Console.WriteLine($"\n📄 {count}. {doc.Id}: {doc.Name}");
+            Console.WriteLine($"   📊 Relevance Score: {result.Score:0.0000}");
+            Console.WriteLine($"   📝 Category: {doc.Category}");
+            
+            // Display highlights from Azure Search
+            if (result.Highlights?.ContainsKey(nameof(Book.Content)) == true)
+            {
+                IList<string>? data = result.Highlights[nameof(Book.Content)];
+                string content = string.Join(" ", data);
+                
+                // Count actual phrase occurrences in highlights
+                var hCount = 0;
+                foreach (var highlight in data)
+                {
+                    // Count <mark> tags which indicate highlighted phrases
+                    hCount += highlight.Split("<mark>", StringSplitOptions.RemoveEmptyEntries).Length - 1;
+                }
+                
+                Console.WriteLine($"   🔍 Azure Search Highlights:");
+                Console.WriteLine($"      • Highlight segments: {data.Count}. Phrase occurrences: {hCount}");
+                Console.WriteLine($"      • {content}");
+            }
+            
+            // Show exact phrase match count in content using our manual counting
+            // int literalMatches = CountLiteralMatches(doc.Content, searchText);
+            // Console.WriteLine($"   🎯 Exact Phrase Matches Found: {literalMatches}");
+            //
+            // // Show content preview with manual highlighting
+            // if (!string.IsNullOrWhiteSpace(doc.Content))
+            // {
+            //     string highlightedContent = HighlightLiteralMatches(doc.Content, searchText);
+            //     string preview = highlightedContent.Length > 500 
+            //         ? highlightedContent[..500] + "..." 
+            //         : highlightedContent;
+            //     Console.WriteLine($"   📄 Content Preview: {preview}");
+            // }
+            //
+            // // Show full content length for reference
+            // Console.WriteLine($"   📋 Full Content Available: {doc.Content?.Length ?? 0} characters");
+        }
+        
+        // Console.WriteLine($"\n📊 EXACT PHRASE SEARCH SUMMARY");
+        // Console.WriteLine($"📈 Total Documents Found: {count}");
+        // Console.WriteLine($"📊 Search completed for exact phrase: '{searchText}'");
+        //
+        // // Calculate and display comprehensive literal match statistics
+        // await DisplayLiteralMatchStatistics(allResults, searchText);
+    }
+    
+    private static async Task DisplayLiteralMatchStatistics(List<Book> results, string searchText)
+    {
+        if (!results.Any())
+        {
+            Console.WriteLine("No results to analyze.");
+            return;
+        }
+        
+        Console.WriteLine($"\n📊 LITERAL MATCH STATISTICS");
+        
+        int totalMatches = 0;
+        var matchesByDocument = new Dictionary<string, int>();
+        var categoryCounts = new Dictionary<string, int>();
+        
+        foreach (var doc in results)
+        {
+            int docMatches = CountLiteralMatches(doc.Content, searchText);
+            totalMatches += docMatches;
+            matchesByDocument[doc.Id] = docMatches;
+            
+            // Count by category
+            if (!string.IsNullOrEmpty(doc.Category))
+            {
+                categoryCounts[doc.Category] = categoryCounts.GetValueOrDefault(doc.Category, 0) + docMatches;
+            }
+        }
+        
+        Console.WriteLine($"🎯 Total Literal Matches Across All Documents: {totalMatches}");
+        Console.WriteLine($"📊 Average Matches Per Document: {(results.Count > 0 ? (double)totalMatches / results.Count : 0):0.2f}");
+        
+        Console.WriteLine($"\n🏆 TOP DOCUMENTS BY LITERAL MATCH COUNT:");
+        var topDocs = matchesByDocument.OrderByDescending(kvp => kvp.Value).Take(5);
+        foreach (var kvp in topDocs)
+        {
+            var doc = results.FirstOrDefault(r => r.Id == kvp.Key);
+            Console.WriteLine($"   {kvp.Key}: {kvp.Value} matches - {doc?.Name}");
+        }
+        
+        Console.WriteLine($"\n📊 MATCHES BY CATEGORY:");
+        foreach (var kvp in categoryCounts.OrderByDescending(c => c.Value))
+        {
+            Console.WriteLine($"   {kvp.Key}: {kvp.Value} total matches");
+        }
+        
+        Console.WriteLine($"\n🔍 SEARCH TERM ANALYSIS:");
+        Console.WriteLine($"   Search Term: '{searchText}'");
+        Console.WriteLine($"   Term Length: {searchText.Length} characters");
+        Console.WriteLine($"   Case Sensitive: No (search is case-insensitive)");
+        Console.WriteLine($"   Match Type: Literal string matching in Content field");
+    }
+    
+    private static int CountLiteralMatches(string content, string searchTerm)
+    {
+        if (string.IsNullOrEmpty(content) || string.IsNullOrEmpty(searchTerm))
+            return 0;
+            
+        // Case-insensitive literal string matching
+        int count = 0;
+        int index = 0;
+        string lowerContent = content.ToLowerInvariant();
+        string lowerSearchTerm = searchTerm.ToLowerInvariant();
+        
+        while ((index = lowerContent.IndexOf(lowerSearchTerm, index)) != -1)
+        {
+            count++;
+            index += lowerSearchTerm.Length;
+        }
+        
+        return count;
+    }
+    
+    private static string HighlightLiteralMatches(string content, string searchTerm)
+    {
+        if (string.IsNullOrEmpty(content) || string.IsNullOrEmpty(searchTerm))
+            return content ?? string.Empty;
+            
+        // Case-insensitive replacement with highlighting
+        return content.Replace(searchTerm, $"**{searchTerm}**", StringComparison.OrdinalIgnoreCase);
+    }
+
     private static async Task DisplayEnhancedResult(SearchResults<Book> response)
     {
         // Display semantic answers with more detail
